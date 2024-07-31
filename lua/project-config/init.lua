@@ -16,11 +16,6 @@ local DEFAULT_CONFIG = {
     new = "A previously unseen `.nvim` config is in this folder."
   },
 
-  dimensions = {
-    width = 60,
-    height = 5,
-  },
-
   enable_preview = true,
 }
 

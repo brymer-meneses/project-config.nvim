@@ -110,8 +110,9 @@ local function show_without_preview(opts, database, prompt, config_file)
       -- Menu.item("󰈈 Preview", { id = 2 }),
       Menu.item(" Ignore", { id = choices.IGNORE }),
     },
-    min_width = opts.dimensions.width,
-    min_height = opts.dimensions.height,
+    -- TODO: expose this as setup options
+    min_width = 60,
+    min_height = 5,
     keymap = {
       focus_next = { "j", "<Down>", "<Tab>" },
       focus_prev = { "k", "<Up>", "<S-Tab>" },
