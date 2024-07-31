@@ -19,7 +19,9 @@ local DEFAULT_CONFIG = {
   dimensions = {
     width = 60,
     height = 5,
-  }
+  },
+
+  enable_preview = true,
 }
 
 ---@param opts DefaultConfig
@@ -33,13 +35,19 @@ function M.setup(opts)
     return
   end
 
+  local found_treesitter, _ = pcall(require, "nvim-treesitter")
+  if not found_treesitter then
+    vim.notify("error: `nvim-treesitter` is a required dependency of `project-config.nvim`", vim.log.levels.ERROR)
+    return
+  end
+
   local found_plenary, Path = pcall(require, "plenary.path")
   if not found_plenary then
     vim.notify("error: plenary is a required dependency of `project-config.nvim`", vim.log.levels.ERROR)
     return
   end
 
-  local handlers = require("project-config.handlers")
+  local ui = require("project-config.ui")
   local Database = require("project-config.database")
 
   local database = Database.new(Path:new(opts.trusted_projects_folder))
@@ -53,7 +61,7 @@ function M.setup(opts)
           if not config_file:is_file() then
             vim.notify("error: expected a `config.lua` inside `.nvim`", vim.log.levels.ERROR)
           else
-            handlers.open_prompt(opts, database, config_file)
+            ui.open_prompt(opts, database, config_file)
           end
         end
       end)
