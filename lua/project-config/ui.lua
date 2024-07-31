@@ -25,7 +25,7 @@ local function show_with_preview(opts, database, prompt, config_file)
     {
       lines = {
         Menu.separator(prompt, { char = " ", text_align = "center" }),
-        Menu.separator("", { char = " " }),
+        Menu.separator(""),
         Menu.item(" Trust and Load Config", { id = choices.TRUST_AND_LOAD_CONFIG }),
         Menu.item(" Ignore", { id = choices.IGNORE }),
       },
@@ -49,11 +49,13 @@ local function show_with_preview(opts, database, prompt, config_file)
     })
 
   local preview = Popup({
-    border = "single",
-    text = {
-      top = "Preview",
-      top_align = "center",
-    }
+    border = {
+      style = "rounded",
+      text = {
+        top = " Preview of `.nvim/config.lua` ",
+        top_align = "center",
+      },
+    },
   })
 
   vim.api.nvim_buf_set_lines(preview.bufnr, 0, -1, false, config_file:readlines())
@@ -75,7 +77,7 @@ local function show_with_preview(opts, database, prompt, config_file)
       },
     },
     Layout.Box({
-      Layout.Box(menu, { size = "20%" }),
+      Layout.Box(menu, { size = "25%" }),
       Layout.Box(preview, { size = "70%" }),
     }, { dir = "col" })
   )
