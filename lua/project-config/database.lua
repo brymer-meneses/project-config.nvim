@@ -33,9 +33,8 @@ function Database.new(path)
   return self
 end
 
---- computes the SHA256 of a file and saves it to `self.path`
---- if it the file doesn't exist then we append to it and write it
---- to the database
+--- computes the SHA 256 of a file and saves it to `self.path`
+--- if the file doesn't exist then we add it to the database
 function Database:trust_file(file)
   local is_found = false
 
@@ -58,8 +57,8 @@ function Database:trust_file(file)
     self:write()
   end
 
-  -- finally we run it
-  dofile(file.filename)
+  local utils = require("project-config.utils")
+  utils.source_config(file)
 end
 
 ---@return "new" | "changed" | "trusted"

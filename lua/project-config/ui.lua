@@ -132,15 +132,16 @@ end
 ---@param opts DefaultConfig
 ---@param database Database
 function M.open_prompt(opts, database, config_file)
-  local classification = database:get_config_status(config_file)
+  local status = database:get_config_status(config_file)
+  local utils = require("project-config.utils")
   local prompt
 
-  if classification == "trusted" then
-    dofile(config_file.filename)
+  if status == "trusted" then
+    utils.source_config(config_file)
     return
-  elseif classification == "new" then
+  elseif status == "new" then
     prompt = opts.prompts.new
-  elseif classification == "changed" then
+  elseif status == "changed" then
     prompt = opts.prompts.changed
   end
 

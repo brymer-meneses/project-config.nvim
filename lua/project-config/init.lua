@@ -52,7 +52,7 @@ function M.setup(opts)
 
   local database = Database.new(Path:new(opts.trusted_projects_folder))
 
-  vim.api.nvim_create_autocmd({ "VimEnter" }, {
+  vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
     callback = function()
       vim.schedule(function()
         local dot_nvim = Path:new(vim.fn.getcwd() .. "/.nvim")
