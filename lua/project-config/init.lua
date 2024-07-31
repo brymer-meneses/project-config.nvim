@@ -12,7 +12,7 @@ local DEFAULT_CONFIG = {
 
   prompts = {
     title = " Project Config Detected ",
-    change = "A change has been detected to the `.nvim` in this folder.",
+    changed = "A change has been detected to the `.nvim` in this folder.",
     new = "A previously unseen `.nvim` config is in this folder."
   },
 
