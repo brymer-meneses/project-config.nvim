@@ -1,3 +1,1 @@
-print("Hello from `.nvim`!")
-
-require(".say_hi")
+vim.notify("Hello from `.nvim`!")
