@@ -10,8 +10,16 @@ local DEFAULT_CONFIG = {
   -- **WARNING:** opening neovim in a directory will run arbitrary code automatically
   trust_everything = false,
 
-  -- default prompt title
-  prompt_title = "[New Project Config Detected]",
+  prompts = {
+    title = " Project Config Detected ",
+    change = "A change has been detected to the `.nvim` in this folder.",
+    new = "A previously unseen `.nvim` config is in this folder."
+  },
+
+  dimensions = {
+    width = 60,
+    height = 5,
+  }
 }
 
 ---@param opts DefaultConfig

@@ -1,5 +1,5 @@
 ---@class Database
----@field file_and_hashes table<{file: string, hash: string}>
+---@field contents table<{file: string, hash: string}>
 ---@field path any
 Database = {}
 
@@ -13,7 +13,7 @@ end
 function Database.new(path)
   local self = setmetatable({}, { __index = Database })
   self.path = path
-  self.file_and_hashes = {}
+  self.contents = {}
 
   if not path:exists() then
     path:touch()
@@ -27,7 +27,7 @@ function Database.new(path)
     end
 
     local contents = vim.split(line, ",", { trimempty = true })
-    table.insert(self.file_and_hashes, { file = contents[1], hash = contents[2] })
+    table.insert(self.contents, { file = contents[1], hash = contents[2] })
   end
 
   return self
@@ -40,7 +40,7 @@ function Database:trust_file(file)
   local is_found = false
 
   local hash = hashfile(file)
-  for _, content in ipairs(self.file_and_hashes) do
+  for _, content in ipairs(self.contents) do
     if content.file == file.filename then
       is_found = true
 
@@ -54,7 +54,7 @@ function Database:trust_file(file)
   end
 
   if not is_found then
-    table.insert(self.file_and_hashes, { file = file.filename, hash = hashfile(file) })
+    table.insert(self.contents, { file = file.filename, hash = hashfile(file) })
     self:write()
   end
 
@@ -62,19 +62,26 @@ function Database:trust_file(file)
   dofile(file.filename)
 end
 
-function Database:is_trusted(file)
-  for _, content in ipairs(self.file_and_hashes) do
+---@return "new" | "changed" | "trusted"
+function Database:classify_config(file)
+  local hash = hashfile(file)
+  for _, content in ipairs(self.contents) do
     if content.file == file.filename then
-      return content.hash == hashfile(file)
+      -- if the hashes do not equal then we update our hash
+      if content.hash ~= hash then
+        return "changed"
+      end
+
+      return "trusted"
     end
   end
 
-  return false
+  return "new"
 end
 
 function Database:write()
   local serialized_data = ""
-  for _, content in ipairs(self.file_and_hashes) do
+  for _, content in ipairs(self.contents) do
     serialized_data = serialized_data .. string.format("%s,%s\n", content.file, content.hash)
   end
   self.path:write(serialized_data, "w")
