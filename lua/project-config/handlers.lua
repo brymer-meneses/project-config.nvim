@@ -37,7 +37,7 @@ function M.open_prompt(opts, database, config_file)
     IGNORE = 3,
   }
 
-  local classification = database:classify_config(config_file)
+  local classification = database:get_config_status(config_file)
   local prompt
 
   if classification == "trusted" then

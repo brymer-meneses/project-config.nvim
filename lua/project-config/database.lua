@@ -63,7 +63,7 @@ function Database:trust_file(file)
 end
 
 ---@return "new" | "changed" | "trusted"
-function Database:classify_config(file)
+function Database:get_config_status(file)
   local hash = hashfile(file)
   for _, content in ipairs(self.contents) do
     if content.file == file.filename then
