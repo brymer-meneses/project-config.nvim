@@ -20,7 +20,12 @@ Using [Lazy](https://github.com/folke/lazy.nvim)
 ```lua
 { 
     'brymer-meneses/project-config.nvim',
-    opts = {}
+    dependencies = {
+         'MunifTanjim/nui.nvim',
+         'nvim-lua/plenary.nvim', 
+         'nvim-treesitter/nvim-treesitter'
+    },
+    opts = {},
 }
 ```
 
