@@ -55,11 +55,12 @@ Here are the default options passed to the setup function
 
 - I initially made it so that importing other lua files in the
 same directory works by modifying `package.path`, but that would entail
-having to hash each file in the directory. I do not really know whether this
-this should be added because of the additional complexity, but I'm open to changing my mind!
+having to hash each file in the directory. I do not really know whether 
+this should be added because of the additional complexity, but I'm open to
+changing my mind!
 
-- Even though it hashes `.nvim/config.lua` it can still be a vector for
+- Even though it hashes the contents of `.nvim/config.lua` it can still be a vector for
 arbitrary code execution, for instance if the user decides to import a file
-that is originally malicious but has now been tampered to do something
-malicious
+that is originally safe but has now been tampered to do something
+malicious.
 
